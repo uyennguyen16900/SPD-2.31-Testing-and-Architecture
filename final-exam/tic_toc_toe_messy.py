@@ -3,7 +3,6 @@
 
 import random
 
-CELL_NUMS = 10
 def drawBoard(board):
     """
     Prints out the board that it was passed.
@@ -38,15 +37,13 @@ def inputPlayerLetter():
     # the first element in the list is the player’s letter, the second is the computer's letter.
     if letter == 'X':
         return ['X', 'O']
-    else:                       
-        return ['O', 'X']
+    return ['O', 'X']
 
 def whoGoesFirst():
     """Randomly choose the player who goes first."""
     if random.randint(0, 1) == 0:
         return 'computer'
-    else:                       
-        return 'player'
+    return 'player'
 
 def playAgain():
     """Returns True if the player wants to play again, otherwise it returns False."""
@@ -54,6 +51,7 @@ def playAgain():
     return input().lower().startswith('y')
 
 def makeMove(board, letter, move):
+    """Enter letter to board"""
     board[move] = letter
 
 def isWinner(bo, le):
@@ -79,8 +77,8 @@ def getBoardCopy(board):
     """Make a duplicate of the board list and return it the duplicate."""
     dupeBoard = []
 
-    for i in range(len(board)):
-        dupeBoard.append(board[i])
+    for item in board:
+        dupeBoard.append(item)
 
     return dupeBoard
 
@@ -157,7 +155,6 @@ def isBoardFull(board):
             return False
     return True
 
-
 def play(theBoard, turn, letter):
     """Make a move depending on whose turn it is."""
     if turn == 'player':
@@ -178,8 +175,7 @@ def check_current_state(theBoard, turn, letter):
     if isWinner(theBoard, letter):
         if turn == 'player':
             return 'player', 'Done'
-        else:
-            return 'computer', 'Done'
+        return 'computer', 'Done'
 
     elif isBoardFull(theBoard):
         return None, 'Draw'
@@ -208,6 +204,7 @@ def resetBoard():
         letter = players[0]
     else:
         letter = players[1]
+        player_index = 1
         
     print('The ' + turn + ' will go first.')
     winner = None
@@ -215,7 +212,7 @@ def resetBoard():
         play(theBoard, turn, letter)
         winner, state = check_current_state(theBoard, turn, letter)
         print_current_state(winner, state)
-        if state == 'Done' or state == 'Draw':
+        if state in ('Done', 'Draw'):
             drawBoard(theBoard)
             if playAgain():
                 resetBoard()
@@ -230,4 +227,5 @@ def resetBoard():
             letter = players[player_index]
 
 if __name__ == "__main__":
+    CELL_NUMS = 10
     resetBoard()
